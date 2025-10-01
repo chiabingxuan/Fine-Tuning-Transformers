@@ -1,0 +1,12 @@
+# Ignore cached files
+**/__pycache__/
+**/.ipynb_checkpoints/
+
+# Ignore all data
+**/data/
+*.pkl
+*.tmp
+*.pth
+
+# Ignore venv
+venv/
