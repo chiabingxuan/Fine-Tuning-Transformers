@@ -1,6 +1,5 @@
 import os
 from peft import LoraConfig, TaskType
-import torch
 from transformers import BitsAndBytesConfig, TrainingArguments
 
 # General configurations
@@ -8,6 +7,7 @@ SEED = 42
 DATASET_PATH = "bingxuanchia/cleaned-isot-fake-news-dataset"
 MODEL_NAME = "google-bert/bert-base-cased"
 FINETUNED_MODEL_NAME = "isot-bert-finetuned"
+FINETUNED_MODEL_REPO_ID = f"chiabingxuan/{FINETUNED_MODEL_NAME}"
 MODEL_WEIGHTS_PATH = "weights"   # Path which will store the saved weights
 NUM_CLASSES = 2                  # Number of distinct class labels
 TRACKIO_SPACE_ID = "chiabingxuan/ISOTFineTuning"
@@ -38,9 +38,7 @@ train_config = TrainingArguments(
 # Quantisation configurations
 QUANTISATION_ENABLED = False
 quantisation_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16
+    load_in_8bit=True
 )
 
 # LoRA configurations

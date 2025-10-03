@@ -8,6 +8,7 @@
 # Ignore all data and weights
 **/data/
 **/weights/
+**/trainer_output/
 *.pkl
 *.tmp
 *.pth
