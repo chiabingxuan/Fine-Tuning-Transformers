@@ -5,7 +5,6 @@ import numpy as np
 import os
 from peft import get_peft_model
 import random
-import time
 import torch
 from transformers import AutoModelForSequenceClassification, set_seed, Trainer
 from utils import load_kaggle_dataset, tokenise_dataset
@@ -78,7 +77,6 @@ def finetune_model(model, model_name, tokeniser, finetuned_model_name, repo_id, 
     metric = evaluate.load("accuracy")
 
     print(f"Fine-tuning {model_name}...")
-    start = time.time()
     trainer = Trainer(
         model=model,
         args=train_config,
@@ -87,9 +85,7 @@ def finetune_model(model, model_name, tokeniser, finetuned_model_name, repo_id, 
         compute_metrics=lambda eval_pred: compute_metrics(metric, eval_pred),
     )
     trainer.train()
-    end = time.time()
-    time_elapsed = int(end - start)
-    print("Fine-tuning completed in {:.0f}m {:.0f}s".format(time_elapsed // 60, time_elapsed % 60))
+    print("Fine-tuning completed!")
 
     # Add model and tokeniser to Hugging Face hub
     trainer.push_to_hub()
