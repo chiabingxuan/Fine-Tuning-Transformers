@@ -11,10 +11,6 @@ def load_kaggle_dataset(dataset_path):
             dataset_path,
             f"{phase}.csv"
         )
-        
-        # Rename the "class" column to "labels" column for BERT
-        phase_data = phase_data.rename_column("class", "labels")
-
         dataset[phase] = phase_data
     dataset = DatasetDict(dataset)
     print(f"Dataset loaded from {dataset_path} on Kaggle!\n")

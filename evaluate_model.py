@@ -13,7 +13,6 @@ from utils import load_kaggle_dataset, tokenise_dataset
 def make_and_save_predictions(trainer, test_dataset, folder_to_save):
     # Use trainer to predict on the test set
     predictions = trainer.predict(test_dataset)
-    print(predictions)
     
     # Get predicted classes and actual classes
     logits = predictions.predictions
@@ -47,9 +46,9 @@ def display_and_save_cm(cm, folder_to_save) -> None:
 def compute_and_save_eval_metrics(y_preds, y_test, folder_to_save):
     # Calculate evaluation metrics wrt fake news class label
     acc = accuracy_score(y_test, y_preds)
-    precision = precision_score(y_test, y_preds, pos_label=0)
-    recall = recall_score(y_test, y_preds, pos_label=0)
-    f1 = f1_score(y_test, y_preds, pos_label=0)
+    precision = precision_score(y_test, y_preds, pos_label=1)
+    recall = recall_score(y_test, y_preds, pos_label=1)
+    f1 = f1_score(y_test, y_preds, pos_label=1)
     cm = confusion_matrix(y_test, y_preds)
 
     # Print evaluation metrics
