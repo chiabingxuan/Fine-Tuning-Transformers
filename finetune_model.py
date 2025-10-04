@@ -1,5 +1,5 @@
 import evaluate
-from finetune_config import SEED, DATASET_PATH, MODEL_NAME, FINETUNED_MODEL_NAME, FINETUNED_MODEL_REPO_ID, MODEL_WEIGHTS_PATH, NUM_CLASSES, TRACKIO_SPACE_ID, TRACKIO_PROJECT, LORA_ENABLED, QUANTISATION_ENABLED, train_config, quantisation_config, lora_config
+from finetune_config import SEED, DATASET_PATH, MODEL_NAME, FINETUNED_MODEL_NAME, FINETUNED_MODEL_REPO_ID, MODEL_WEIGHTS_PATH, NUM_CLASSES, TRACKIO_SPACE_ID, TRACKIO_PROJECT, LORA_ENABLED, train_config, lora_config
 from huggingface_hub import login
 import numpy as np
 import os
@@ -42,22 +42,12 @@ def compute_metrics(eval_metric, eval_pred):
     return eval_metric.compute(predictions=predictions, references=labels)
 
 
-def load_model(model_name, num_classes, quantisation_enabled, lora_enabled):
-    if quantisation_enabled:
-        print("Quantisation enabled")
-        model = AutoModelForSequenceClassification.from_pretrained(
-            model_name,
-            num_labels=num_classes,
-            device_map="auto",
-            quantization_config=quantisation_config
-        )
-
-    else:
-        model = AutoModelForSequenceClassification.from_pretrained(
-            model_name,
-            num_labels=num_classes,
-            device_map="auto"
-        )
+def load_model(model_name, num_classes, lora_enabled):
+    model = AutoModelForSequenceClassification.from_pretrained(
+        model_name,
+        num_labels=num_classes,
+        device_map="auto"
+    )
 
     if lora_enabled:
         model = get_peft_model(model, lora_config)
@@ -121,7 +111,6 @@ def run_finetuning_pipeline(hf_token):
     model = load_model(
         model_name=MODEL_NAME,
         num_classes=NUM_CLASSES,
-        quantisation_enabled=QUANTISATION_ENABLED,
         lora_enabled=LORA_ENABLED
     )
     model_ft = finetune_model(

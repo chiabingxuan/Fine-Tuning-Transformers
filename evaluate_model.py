@@ -85,7 +85,8 @@ def evaluate_finetuned_model():
     test_args = TrainingArguments(
         do_train=False,
         do_predict=True,
-        per_device_eval_batch_size=16
+        per_device_eval_batch_size=16,
+        report_to="none"
     )
 
     # Wrap model in Trainer

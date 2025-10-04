@@ -1,6 +1,6 @@
 import os
 from peft import LoraConfig, TaskType
-from transformers import BitsAndBytesConfig, TrainingArguments
+from transformers import TrainingArguments
 
 # General configurations
 SEED = 42
@@ -33,12 +33,6 @@ train_config = TrainingArguments(
     logging_steps=250,
     report_to=["trackio"],
     run_name=FINETUNED_MODEL_NAME
-)
-
-# Quantisation configurations
-QUANTISATION_ENABLED = False
-quantisation_config = BitsAndBytesConfig(
-    load_in_8bit=True
 )
 
 # LoRA configurations
